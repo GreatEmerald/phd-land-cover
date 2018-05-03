@@ -193,7 +193,7 @@ This research project aims to address the following research challenges:
 \begin{enumerate}
  \item There is a variety of machine learning algorithms that are able to produce information about the fractions of land cover classes, but some are not suitable for continental or global scale classification due to their computational intensity, low accuracy (overfitting), and/or ability to deal with non-normal or collinear variables.
  \item Extracting temporal features from time series of satellite data without consideration of land cover change occurring during the time period leads to the temporal metrics being a mix between several land cover classes. Break detection in time series can be used to detect periods of stable land cover.
- \item Differences between land cover maps produced annually are often spurious, rather than reflecting actual changes on the ground. This issue can be eliminated by making the methods of producing the maps more conservative, rather than presuming that either of the two maps is error-free.
+ \item Differences between land cover maps produced annually are often spurious, rather than reflecting actual changes on the ground. Spurious change can be reduced by either having the model take prediction uncertainty into account, or with a post-classification approach.
  \item Discrete land cover classes cannot express gradual changes from one class to another, only abrupt changes affecting an entire pixel. Using class fractions would allow for expressing such changes.
 \end{enumerate}
 
