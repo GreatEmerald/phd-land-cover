@@ -1,0 +1,92 @@
+\documentclass[a4paper,10pt,backaddress=false]{scrartcl}
+\usepackage{scrletter}
+\usepackage[colorlinks, allcolors=blue, xetex]{hyperref}
+\usepackage{polyglossia}
+\setmainlanguage[variant=british]{english}
+\usepackage[threshold=1]{csquotes}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\setkomavar{fromname}{Dainius Masiliūnas, \\ PhD Candidate at the Laboratory of Geo-information Science and Remote Sensing}
+\setkomavar{fromaddress}{Droevendaalsesteeg 3, room C311 \\
+Gaia, building number 101 \\
+6708 PB  Wageningen \\
+The Netherlands}
+
+\RedeclareSectionCommand[font=\bfseries]{section}
+
+\begin{document}
+
+\begin{letter}{Prof. Bas Zwaan \\ Director, PE\&RC}
+\opening{Dear Prof. Zwaan,}
+
+thank you for the response to my PhD project proposal (PE\&RC 17113: ``Large-scale land cover change monitoring from dense time series of satellite data''), and to both of the reviewers for their feedback on it. I am very pleased that the proposal has been evaluated positively and that my ideas are regarded as exciting and novel.
+
+The reviewers have raised some points that require a response from my side. I shall address them below.
+
+\bigskip
+
+\textbf{Reviewer No. 1} wrote in section \textbf{``Methodology''}:
+
+\blockquote{The proposal lacks, however, a more detailed description of the state of the art in the area of fuzzy classification of remote sensing images. Several approaches have been proposed recently, and an overview of the most promising techniques to be considered in the comparative study (RO1) is missing in the proposal. Furthermore, the literature overview lacks recent initiatives in the covered research areas.}
+
+To the best of my knowledge, most recent developments in the fractional land cover mapping field have been focused on the sub-pixel mapping problem, also known as super-resolution mapping \citep{mertens_using_2003, thornton_subpixel_2006, ling_super-resolution_2010, wang_particle_2012, ge_sub-pixel_2013, wang_subpixel_2013, wang_allocating_2014, xu_adaptive_2014, xu_spatio-temporal_2014, zhang_example-based_2014, wang_indicator_2015}. This type of mapping aims to resolve the spatial distribution of hard land cover classes within a coarser pixel. However, this problem is out of scope for my PhD project: my focus will be on determining the proportions of land cover classes within a pixel only, not their distribution. This results in lower uncertainty compared to sub-pixel mapping, which is more important for the majority of land cover map users (e.g. the climate modelling community). In addition, this type of land cover map can then be used as input for the sub-pixel mapping techniques in order to produce a super-resolution map; for instance as in \citet{wang_allocating_2014}.
+
+In comparison, there have been only a few recent developments in the field of traditional fuzzy classification. The most similar study to the one I proposed in RO1 was made by \citet{colditz_land_2011}. However, it merely focuses on the feasibility of performing fractional land cover mapping, whereas my focus is on comparing different fuzzy classification methods. From that side, there have been a few novel algorithms developed from the field of machine learning. Examples include a wavelet transform algorithm \citep{uma_shankar_wavelet-fuzzy_2011}, a genetic algorithm cobined with a fuzzy rule-based system \citep{stavrakoudis_boosted_2011}, a genetic algorithm combined with a neural network \citep{chatterjee_forest_2016}, and adjusting a fuzzy classification algorithm to handling interval-valued data \citep{yu_land_2014}. These developments will be mentioned and taken into account for RO1.
+
+\bigskip
+
+\textbf{Reviewer No. 1} wrote in section \textbf{``Work plan''}:
+
+\blockquote{Even though some target case studies (regions) are mentioned, the proposal lacks a more clear description regarding the validation protocol that will be adopted. It is not clear, for example, how target datasets are organized (e.g., number of classes; number of samples); what makes the mentioned datasets appropriate for the target problems; how ground truth data will be collected or produced for each research problem; and which measures/criteria will be used to compare existing methods and to evaluate proposed algorithms.}
+
+A validation protocol is indeed an important part of the PhD project planning. Due to the required level of detail, the plan is included as part of the Data Management Plan (DMP), rather than the body of the PhD project proposal itself. For the sake of reference, I will explain the datasets here and also address each of the reviewer's subcomments individually.
+
+In total, three reference datasets will be used in the PhD project, all three collected for the Copernicus Global Land Operations ``Vegetation and Energy'' (CGLOPS) project. The first two are land cover datasets, describing the land cover fractions at 100×100 m sampling areas at a particular moment in time. These samples were collected by regional experts who performed visual interpretation of high and medium resolution satellite imagery, using the GeoWiki platform. One of the datasets is a training dataset, collected by IIASA, which is only used for training models. The other dataset is collected by Wageningen University \& Research and is only used as an independent dataset for model validation and accuracy assessment.
+
+Both of these datasets have been collected by following the same procedure, which is explained in detail in the CGLOPS1\_SVP document. The datasets have 13 classes: bare soil, burnt area, crops, fallow/shifting cultivation, grassland, lichens and moss, shrubs, snow and ice, trees (with an additional field specifying forest type, if known), urban/built-up, water, herbacious wetland and an ``unsure'' class for when a class was not identified by the experts. The data describes the fractions of each of these classes in each reference pixel, which is what is needed for RO1 and RO4. This data can then in turn be hardened for use in discrete land cover map accuracy assessment (RO2 and RO3). At the moment of writing, the number of samples for the training pixels is 67851, but more data is being collected, so the final number of samples is going to be higher. The datasets are set to be global, although the data is being collected continent by continent, starting from Africa, Asia and Central America.
+
+The third dataset, also collected by IIASA, is for validating the land cover change detection algorithm output of RO2. For this dataset, regional experts are asked to identify whether or not there was a change in land cover in a sampling area since 2015, and if so, on which date did the change happen. This is achieved using the TimeSync tool that is part of the GeoWiki platform, which visualises quarterly Sentinel-2 imagery in the neighbourhood of the selected sample. For the initial sample, 500 points in sub-Saharan Africa have been selected. This initial sample will guide the time series break detection algorithm selection, and then more samples will be collected for accuracy assessment purposes.
+
+These datasets are appropriate for validating the results of each research objective, as they are tailored for validating fractional and discrete land cover within a large global land cover classification project, it is spatially exhaustive, and large enough to draw valid statistical conclusions. The separation between the training and validation data collection ensures that the resulting maps are validated by an independent dataset.
+
+Another dataset that may be used for comparison with the output land cover maps is the forest loss and gain maps by \citet{hansen_high-resolution_2013}. However, these maps include only a single land cover class (forests), rather than using an exhaustive land cover legend as proposed in this PhD project.
+
+The validation criteria varies per research objective. For RO1 and RO4, the algorithm outputs and yearly-updated maps will be compared on the basis of root mean square error (RMSE) from the validation points' fractions, as well as by using a sub-pixel uncertainty-confusion matrix and corresponding Kappa coefficient as proposed by \citet{silvan-cardenas_sub-pixel_2008}. For RO2 and RO3, the accuracy assessment will be made by using a traditional confusion matrix and related statistical metrics. In addition, for RO2, the accuracy of the land cover change detection algorithm will be assessed by metrics such as yearly agreement/disagreement with reference data and time offset (lag) of the real breakpoint from the predicted breakpoint.
+
+\bigskip
+
+\textbf{Reviewer No. 2} wrote in section \textbf{``Methodology''}:
+
+\blockquote{A suggestion might be however also to include various state of the art regression techniques (which consider uncertainty) in RO 1 and not only RF regression. Also, it’s advised to have a look to the impact of false negatives (real changes which are not marked in the prerun with MODIS) in RO 2.}
+
+I thank the reviewer for this suggestion. It is indeed a good idea to also compare the machine learning algorithms mentioned in RO1 with traditional statistical techniques, such as logistical regression. These techniques indeed allow for easier estimation of model uncertainty, although there are also ways to estimate uncertainty of some of the machine learning models. Quantile regression forests \citep{meinshausen_quantile_2006} is one method of doing so for Random Forest models, for instance.
+
+False negatives are indeed an issue in RO2. Coarser resolution imagery results in more pixels that are mixed, and thus land cover change in a mixed pixel may not be detected, since it is partial. One solution would be to use finer resolution imagery, but that causes big data handling issues when performing continental or global scale land cover classification. Therefore the magnitude of this problem will be assessed by comparing the results with reference data as explained above. It may be that false negatives around the edges of a particular land cover cluster (e.g. a forest) do not account for a large enough area to make a difference for the resulting land cover map. If it does, then other solutions will be sought, for instance by marking the neighbouring pixels from a pixel with detected land cover change as having changed as well.
+
+\bigskip
+
+\textbf{Reviewer No. 2} wrote in section \textbf{``Work plan''}:
+
+\blockquote{The work plan looks adequate to achieve the goals and objectives. However it’s likely that little time will remain for RO4 as some delay might be in RO1-3 and consequently part of RO4 might coincide with finalizing the thesis. All research objectives contain some form of originality, but RO4 stands out.., so perhaps this should start a bit earlier if possible.}
+
+I thank the reviewer for the kind words about the work plan. For RO4, it is indeed the most innovative, but at the same time the most challenging objective of the PhD project. It builds upon both RO1 and RO3, so it is not likely that the work on it could be started earlier than scheduled in the PhD project proposal. However, this will be attempted in case it is possible, and perhaps groundwork for RO4 could already be started during the work on RO3.
+
+\bigskip
+
+\textbf{Reviewer No. 2} further wrote in section \textbf{``Work plan''}:
+
+\blockquote{Also the thesis heavily relies on data gathered within CGLOPS. Some delay might also occur in this, so some back-up options might be considered.}
+
+This is a good point. In order to mitigate this risk, all processing scripts used within the PhD project will be made with reproducibility in mind. That way, even if there is a delay in reference data gathering, the processing can be run on partial data, and rerun again when all data has been gathered.
+
+\bibliography{rebuttal}
+
+\bigskip
+
+I hope that these responses to the reviewers' comments are sufficient, and I once again thank both of the reviewers for their time and the feedback provided.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}
