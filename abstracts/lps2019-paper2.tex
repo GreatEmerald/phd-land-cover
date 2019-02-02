@@ -1,0 +1,44 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+%continuous land cover map updating by exploring satellite image time series-based change detection approaches
+\title{Change detection in satellite image time series for continuous land cover map updating}
+\author{Dainius Masiliūnas, Nandin-Erdene Tsendbazar, Martin Herold, Myroslava Lesiv, Jan Verbesselt}
+
+\begin{document}
+
+\maketitle
+
+% 300-1500 words
+\begin{abstract}
+% Innovation
+% - Choosing the optimal time period for extracting temporal metrics
+% - Comparing methods to do so
+% - Map updating is underrepresented
+
+Land cover monitoring is an integral part of land management. Many stakeholders, such as land owners, governments, NGOs and international organisations are interested in keeping track of changes on the ground, so that these changes could be managed. This can be done using land cover maps, however, most land cover maps are only produced for a single date. For example, the GLC2000 product was produced with the intention of representing the global land cover in the year 2000. Yet, the target of land cover monitoring is the land cover change over time, which is an indicator of ongoing processes on the ground.
+
+One way to express land cover change is by producing multiple single-date maps, and analysing the differences between them. However, if the probability that the pixel belongs to a certain class is close between two classes, then even a small change in model input data may cause the prediction to shift to a different land cover class.
+
+In this study, we propose to update land cover maps by performing change detection on time series of satellite imagery. If there is an abrupt change in seasonal pattern in the time series of a pixel, then a land cover class transition is likely to have occurred at that location. Only areas with detected change need to be updated for producing the next iteration of the map, making it more consistent over time, and taking less computational effort to reclassify the map. In addition, performing change detection allows us to avoid extracting temporal features for classification from periods of change. If no land cover change happened, then it is possible to use a longer history period for extracting temporal features, therefore increasing the robustness and accuracy of the classification model (see Figure 1). However, a limitation of using change detection for map updating is that we assume that the original land cover map is accurate and can be used as a basemap for updating, which may not always be the case.
+
+ \begin{figure}
+ \centering
+ \includegraphics[width=\textwidth]{figures/timeseries-stability.png}
+ \label{fig:timeseries-stability}
+\end{figure}
+
+To see if this method is viable and scalable, we compared the performance of three time series break detection algorithms: strucchange::breakpoints, BFAST Monitor and annual t-test. The algorithms were run over the time series of vegetation indices derived from MODIS 250 m data over the entire continent of Africa. A computer cluster hosted by VITO was used for this big data processing task. This was done in the context of the Copernicus Global Land System: Dynamic Land Cover (CGLS-LC100) land cover project.
+
+In order to validate the algorithm performance, the CGLS-LC100 project is collecting reference points from Africa. Land cover change is identified through image interpretation of very high resolution imagery, as well as Sentinel-2 images and NDVI profiles. Once the reference data is collected, algorithm performance will be assessed using confusion matrix statistics, such as sensitivity, specificity, false positive rate, likelihood ratio for positive tests and positive predictive value. 
+
+Preliminary results from West African drylands show that land cover change is an uncommon phenomenon, as only 3.4\% of the 1010 reference points show change. All of the tested algorithms tended to overestimate the detected change in this region. The annual t-test algorithm was the fastest, but it does not provide any temporal metrics, only whether there was a break in time series over a chosen year. In contrast, strucchange::breakpoints provides the estimated day of year when a break in the time series is detected. BFAST Monitor is in between, in that it gives a rough estimate of when the break occurred within a particular year.
+
+Once additional reference data about land cover change is collected, we will investigate options to further tune the algorithms to detect land cover change, so that it would improve the classification accuracy of the final land cover map for a given year. This will also reduce the data amounts that need reprocessing each year to produce an updated map. Limiting the amount of data to process is becoming more important, as land cover maps move into higher spatial resolution, e.g. 20 m resolution based on Sentinel-2 imagery.
+
+The framework set in this study is independent of a particular satellite sensor, and so the findings are applicable to all land cover maps that are in an operational phase, i.e. are regularly updated. Due to the scalability of the approach, the methods have the potential to improve the accuracy of both local-scale and global-scale land cover classification products, as well as make them easier to update.
+
+\end{abstract}
+
+\end{document}
